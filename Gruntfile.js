@@ -2,6 +2,16 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    
+    env : {
+      dev : {
+        NODE_ENV : 'development'
+      },
+      build : {
+        NODE_ENV : 'production'
+      }
+    },
+
     concat: {
       dist: {
         src: [
@@ -32,7 +42,7 @@ module.exports = function(grunt) {
 
       build: {
         src: 'public/dist/build.js',
-        dest: 'public/dist/build.min.js'
+        dest: 'public/deploy/build.min.js'
       }
 
     },
@@ -55,7 +65,7 @@ module.exports = function(grunt) {
       
       build: {
         src: 'public/style.css',
-        dest: 'public/dist/style.min.css'
+        dest: 'public/deploy/style.min.css'
       }
 
     },
@@ -79,7 +89,13 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        
+        command: [
+          'azure site scale mode standard shrty ',
+          ' git push azure master ',
+          ' azure site log tail shrty ',
+          ' azure site scale mode free shrty ',
+          ' azure site browse'
+        ].join('&&')
       }
     },
   });
@@ -92,8 +108,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-env');
 
   grunt.registerTask('server-dev', function (target) {
+    
+    grunt.task.run([ 'env:dev' ]);
+
     // Running nodejs in a different process and displaying output on the main console
     var nodemon = grunt.util.spawn({
          cmd: 'grunt',
@@ -105,6 +125,10 @@ module.exports = function(grunt) {
 
     grunt.task.run([ 'watch' ]);
   });
+
+  grunt.registerTask('server-prod', [
+    'shell', 'env:prod'
+  ]);
 
   ////////////////////////////////////////////////////
   // Main grunt tasks
@@ -118,9 +142,10 @@ module.exports = function(grunt) {
     'concat', 'uglify', 'cssmin'
   ]);
 
+
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
-      
+      grunt.task.run(['server-prod']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
