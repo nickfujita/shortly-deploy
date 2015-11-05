@@ -7,7 +7,7 @@ module.exports = function(grunt) {
       dev : {
         NODE_ENV : 'development'
       },
-      build : {
+      prod : {
         NODE_ENV : 'production'
       }
     },
@@ -89,15 +89,9 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        command: [
-          'azure site scale mode standard shrty ',
-          ' git push azure master ',
-          ' azure site log tail shrty ',
-          ' azure site scale mode free shrty ',
-          ' azure site browse'
-        ].join('&&')
+        command: 'git push azure master'
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
