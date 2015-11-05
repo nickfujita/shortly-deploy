@@ -2,13 +2,12 @@ var mongoose = require('../config');
 var Schema = mongoose.Schema;
 
 var linkSchema = new Schema({
-  url: {type: String, required: true, unique: true},
-  base_url: {type: String, required: true, unique: true},
-  code: {type: String, required: true, unique: true},
-  title: {type: String, required: true},
-  visits: Number,
-  timestamps: Date
-})
+  url: {type: String},
+  base_url: {type: String},
+  code: {type: String},
+  title: {type: String},
+  visits: Number
+});
 
 var Link = mongoose.model('Link', linkSchema);
 module.exports = Link;
