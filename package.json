@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "shortly using express",
   "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "repository": "",
   "license": "Proprietary",
   "private": true,
