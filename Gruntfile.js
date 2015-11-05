@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         dest: 'public/dist/buildLib.js'
       },
       client: {
-        src: ['/public/client/*.js'],
+        src: ['public/client/*.js'],
         dest: 'public/dist/buildClient.js'
       }
     },
