@@ -140,7 +140,6 @@ module.exports = function(grunt) {
     'concat', 'uglify', 'cssmin'
   ]);
 
-
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       grunt.task.run(['server-prod']);

@@ -6,7 +6,10 @@
   });
 </script>
 
-<% if(process.env.NODE_ENV === 'development') { %>
+<% if(process.env.NODE_ENV === 'production') { %>
+  <script src='/deploy/buildLib.min.js'></script>
+  <script src='/deploy/buildClient.min.js'></script>
+<% } else { %>
   <script src='/client/app.js'></script>
   <script src='/client/link.js'></script>
   <script src='/client/links.js'></script>
@@ -14,7 +17,4 @@
   <script src='/client/linksView.js'></script>
   <script src='/client/createLinkView.js'></script>
   <script src='/client/router.js'></script>
-<% } else { %>
-  <script src='/deploy/buildLib.min.js'></script>
-  <script src='/deploy/buildClient.min.js'></script>
 <% } %>
