@@ -13,14 +13,16 @@ module.exports = function(grunt) {
     },
 
     concat: {
-      dist: {
+      lib: {
         src: [
-          'public/lib/underscore.js', 'public/lib/jquery.js', 'public/lib/backbone.js', 'public/lib/handlebars.js', '/public/client/*.js'
+          'public/lib/underscore.js', 'public/lib/jquery.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'
         ],
-        dest: 'public/dist/build.js'
+        dest: 'public/dist/buildLib.js'
+      },
+      client: {
+        src: ['/public/client/*.js'],
+        dest: 'public/dist/buildClient.js'
       }
-
-
     },
 
     mochaTest: {
@@ -41,8 +43,10 @@ module.exports = function(grunt) {
     uglify: {
 
       build: {
-        src: 'public/dist/build.js',
-        dest: 'public/deploy/build.min.js'
+        files: {
+          'public/deploy/buildLib.min.js': ['public/dist/buildLib.js'],
+          'public/deploy/buildClient.min.js': ['public/dist/buildClient.js']
+        }
       }
 
     },
@@ -146,7 +150,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-      'test', 'build', 'upload' // maybe more
+      'test', 'build', 'upload'
   ]);
 
 
